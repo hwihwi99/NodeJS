@@ -19,6 +19,32 @@
         <br>
         <input type="submit" value="로그인">
     </form>
+    <!--ajax를 이용한...-->
+    <button class="ajaxsend" >ajaxsend</button>
+    <div class="result"></div>
+    <script>
+        // CSS 선택자로 요소를 선택하게 해줍니다.
+        // 클래스 값으로 ajaxsend를 갖는 것 중 첫번째 요소에 접근합니다.
+        // 그렇게 css를 바꿀 수 있습니다!
+        document.querySelector('.ajaxsend').addEventListener('click',()=>{
+            var inputdata = document.forms[0].elements[0].value;
+            sendAjax('http://localhost:1000/ajax_send_email',inputdata);
+        })
+
+        function sendAjax(url,data){
+            var data = {"email" : data};
+            data = JSON.stringify(data)
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST',url);
+            // 서버에 보낼 때 json 형태로 보내는데 그럴때는 아래 이거를 써준다.
+            xhr.setRequestHeader('Content-Type',"application/json");
+            xhr.send(data);
+            xhr.addEventListener('load',()=>{
+                var result = JSON.parse(xhr.responseText);
+                document.querySelector(".result").innerHTML=result.email;
+            })
+        }
+    </script>
     <a href="/join">회원가입</a>
     <a href="/LostPassword">비밀번호 찾기</a>
 </body>

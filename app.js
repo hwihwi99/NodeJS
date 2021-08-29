@@ -61,6 +61,12 @@ app.post('/login',function(req,res){
     res.render('email.ejs',{'email': req.body.email, 'password' : req.body.password});
 })
 
+app.post('/ajax_send_email',(req,res)=>{
+    console.log(req.body.email);
+    var responseData = {'result' : 'ok','email':req.body.email};
+    res.json(responseData);
+})
+
 // passport 사용하기
 
 passport.serializeUser((user,done)=>{
