@@ -33,15 +33,33 @@
 
         function sendAjax(url,data){
             var data = {"email" : data};
-            data = JSON.stringify(data)
+    
+            //클라이언트 -> 서버 : 스트링으로 변환해서 보낸다.
+            data = JSON.stringify(data);
+
+            // XMLHttpRequest 객체 생성
             var xhr = new XMLHttpRequest();
+
+            // 요청을 열어 메서드와 주소를 설정합니다.
+            // (메서드에서는 POST, GET, PUT, PATCH, DELETE, HEAD 등이 들어올 수 있다.)  
             xhr.open('POST',url);
+
+
             // 서버에 보낼 때 json 형태로 보내는데 그럴때는 아래 이거를 써준다.
             xhr.setRequestHeader('Content-Type',"application/json");
+
+            // 요청 전송
             xhr.send(data);
+
+            // 요청이 성공적으로 load 되면 아래의 함수를 실행시킵니다.
             xhr.addEventListener('load',()=>{
                 var result = JSON.parse(xhr.responseText);
-                document.querySelector(".result").innerHTML=result.email;
+                var resultDiv = document.querySelector(".result");
+                if(result.result !=="ok"){
+                    resultDiv.innerHTML ="Cannot find your email";
+                }else{
+                    resultDiv.innerHTML=result.name;
+                }
             })
         }
     </script>

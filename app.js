@@ -8,11 +8,13 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const connection = mysql.createConnection({
     host : 'localhost',
-    port : '1000',
+    port : 3306,
     user : 'root',
     password : '1234',
     database : 'NodeProject'
 })
+// 연결을 시작하자!
+connection.connect();
 
 // static한 파일들은 여기서 다 가져와라!
 app.use(express.static('public'));
@@ -62,9 +64,26 @@ app.post('/login',function(req,res){
 })
 
 app.post('/ajax_send_email',(req,res)=>{
-    console.log(req.body.email);
-    var responseData = {'result' : 'ok','email':req.body.email};
-    res.json(responseData);
+    var email = req.body.email;
+    var responseData={};
+    
+    var query = connection.query('select name from user where email="'+email+'"',
+    (err,rows)=>{
+        if(err){
+            throw err;
+        }
+        if(rows[0]){
+            responseData.result="ok";
+            responseData.name = rows[0].name;
+        }else{
+            responseData.result="none";
+            responseData.name = "";
+        }
+        res.json(responseData);
+    })
+    //console.log(req.body.email);
+    //var responseData = {'result' : 'ok','email':req.body.email};
+    //res.json(responseData);
 })
 
 // passport 사용하기
