@@ -12,7 +12,7 @@
         This page is my introductionPage. <br>
         If you login in here, You can read info about me and send msg to me ^^
     </p>
-    <form action="/login" method="post">
+    <form action="/login/login" method="post">
         email : <input required="" type="text" name="email" id="email">
         <br>
         password : <input required="" type="text" name="password" id="password">
@@ -22,13 +22,16 @@
     <!--ajax를 이용한...-->
     <button class="ajaxsend" >ajaxsend</button>
     <div class="result"></div>
+    <a href="/login/join">회원가입</a>
+    <a href="/LostPassword">비밀번호 찾기</a>
+    
     <script>
         // CSS 선택자로 요소를 선택하게 해줍니다.
         // 클래스 값으로 ajaxsend를 갖는 것 중 첫번째 요소에 접근합니다.
         // 그렇게 css를 바꿀 수 있습니다!
         document.querySelector('.ajaxsend').addEventListener('click',()=>{
             var inputdata = document.forms[0].elements[0].value;
-            sendAjax('http://localhost:1000/ajax_send_email',inputdata);
+            sendAjax('http://localhost:1000/email/ajax',inputdata);
         })
 
         function sendAjax(url,data){
@@ -63,7 +66,6 @@
             })
         }
     </script>
-    <a href="/join">회원가입</a>
-    <a href="/LostPassword">비밀번호 찾기</a>
+
 </body>
 </html>
