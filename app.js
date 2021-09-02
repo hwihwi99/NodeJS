@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const bodyparser = require('body-parser');
 const mysql = require('mysql');
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -27,17 +28,14 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.set('view engine','ejs');
 
+const login = require('./router/login')
+app.use('/login', login);
+
 app.listen(1000,function(){
     console.log("1000Port Server is start")
 })
 
 app.get('/',function(req,res){
-    console.log("This is login page");
-    //res.send("<h1>Hi, Hwojeong!</h1>");
-    res.sendFile(path.join(__dirname,"../NodeJS_Project/public/welcomePage.html"));
-})
-
-app.get('/login',function(req,res){
     console.log("This is login page");
     //res.send("<h1>Hi, Hwojeong!</h1>");
     res.sendFile(path.join(__dirname,"../NodeJS_Project/public/welcomePage.html"));
@@ -86,23 +84,4 @@ app.post('/ajax_send_email',(req,res)=>{
     //res.json(responseData);
 })
 
-// passport 사용하기
 
-passport.serializeUser((user,done)=>{
-    console.log('passport session save : ', user.id);
-    return done(null,user.id);
-});
-
-passport.deserializeUser((id,done)=>{
-    console.log('passport session get id : ', id);
-    done(null,id);
-})
-
-// passport.use('local-joij', new LocalStrategy({
-//     usernameField : 'email',
-//     passwordField : 'password',
-//     session : true,
-//     passReqToCallback : false
-// },function(res,email,password,done)=>{
-//     var query = connection.query('select * from user where')
-// }))
