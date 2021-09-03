@@ -14,23 +14,11 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 app.set('view engine','ejs');
 
-const login = require('./router/login')
-app.use('/login', login);
-
-const email = require('./router/email')
-app.use('/email', email);
-
-const join = require('./router/join')
-app.use('/login/join', join);
+const router = require('./router/index');
+app.use(router);
 
 app.listen(1000,function(){
     console.log("1000Port Server is start")
-})
-
-app.get('/',function(req,res){
-    console.log("This is login page");
-    //res.send("<h1>Hi, Hwojeong!</h1>");
-    res.sendFile(path.join(__dirname,"../NodeJS_Project/public/welcomePage.html"));
 })
 
 app.get('/LostPassword',function(req,res){
