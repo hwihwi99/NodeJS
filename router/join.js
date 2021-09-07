@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const path = require('path');
-
+const crypto = require('crypto');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
     host : 'localhost',
@@ -21,8 +21,8 @@ router.post('/',function(req,res){
     var email = req.body.email
     var password = req.body.password
     var name = req.body.name;
-
-    var query = connection.query('insert into now_user(email,pw,user_name) VALUES (?,?,?)',[email,password,name],(err,rows)=>{
+    var dbpw = crypto.createHash("sha512").update(password).digest('base64');
+    var query = connection.query('insert into now_user(email,pw,user_name) VALUES (?,?,?)',[email,dbpw,name],(err,rows)=>{
         if(err){
             throw err;
         }
