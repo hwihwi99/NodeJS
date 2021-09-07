@@ -2,21 +2,40 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const path = require('path');
-// 
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host : 'localhost',
+    port : 3306,
+    user : 'root',
+    password : '1234',
+    database : 'now'
+})
+//연결을 시작하자!
+connection.connect();
+
 router.get('/',function(req,res){
     console.log("login_router is work");
     //res.send("<h1>Hi, Hwojeong!</h1>");
     res.sendFile(path.join(__dirname,"../public/welcomePage.html"));
 })
 
-router.post('/login',function(req,res){
-    // 전송된 값이 req.body를 통해서 옵니다.
-    console.log(req.body.email);
-    console.log(req.body.password);
-    //res.send("<h1>This is MyPage! ReallyWelcome!"+req.body.email+"</h1>");
-    
-    // ejs를 사용하려면 render를 사용합니다!
-    res.render('email.ejs',{'email': req.body.email, 'password' : req.body.password});
+router.post('/',function(req,res){
+    var email = req.body.email;
+    var password = req.body.password;
+
+    var query = connection.query('select * from now_user where email = ? and pw = ?',[email,password],(err,rows)=>{
+        if(err){
+            throw err;
+        }
+        if(rows[0]){
+            console.log('login success');
+            res.render('home.ejs',{name:rows[0].user_name});
+        }else{
+            console.log('login fail');
+            res.redirect('/');
+        }
+    })
 })
 
 router.get('/join',function(req,res){
