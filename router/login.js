@@ -19,4 +19,8 @@ router.post('/login',function(req,res){
     res.render('email.ejs',{'email': req.body.email, 'password' : req.body.password});
 })
 
+router.get('/join',function(req,res){
+    res.redirect('/join');
+})
+
 module.exports = router;

@@ -11,7 +11,7 @@ const email = require('./email')
 router.use('/email', email);
 
 const join = require('./join')
-router.use('/login/join', join);
+router.use('/join', join);
 
 router.get('/',function(req,res){
     console.log("This is login page from router");

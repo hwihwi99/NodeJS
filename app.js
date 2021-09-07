@@ -21,10 +21,6 @@ app.listen(1000,function(){
     console.log("1000Port Server is start")
 })
 
-app.get('/LostPassword',function(req,res){
-    console.log("Find Password");
-    res.send("<h1>Find Password!!!</h1>");
-})
 
 
 

@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
     port : 3306,
     user : 'root',
     password : '1234',
-    database : 'NodeProject'
+    database : 'now'
 })
 //연결을 시작하자!
 connection.connect();
